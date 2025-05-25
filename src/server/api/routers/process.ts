@@ -1,5 +1,5 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { extractTextFromPdfBuffer } from "./parsing";
+import { extractTextFromPdfBuffer } from "../pdfs/parsing";
 import { z } from "zod";
 import { env } from "~/env";
 import OpenAI from "openai";

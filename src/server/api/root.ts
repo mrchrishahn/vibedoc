@@ -2,7 +2,7 @@ import { postRouter } from "~/server/api/routers/post";
 import { projectRouter } from "~/server/api/routers/project";
 import { formRouter } from "~/server/api/routers/form";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
-import { pdfRouter } from "./pdfs/process";
+import { pdfRouter } from "./routers/process";
 
 /**
  * This is the primary router for your server.
