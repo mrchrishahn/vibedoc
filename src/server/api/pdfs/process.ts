@@ -85,7 +85,7 @@ export const pdfRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       try {
         const { fileUrl } = input;
-        
+
         // Fetch the file from the URL
         const response = await fetch(fileUrl);
         if (!response.ok) {
@@ -94,10 +94,10 @@ export const pdfRouter = createTRPCRouter({
 
         // Get the PDF as an ArrayBuffer
         const pdfBuffer = await response.arrayBuffer();
-        
+
         // Extract text from the PDF
         const text = await extractTextFromPdfBuffer(pdfBuffer);
-        
+
         return { text };
       } catch (error) {
         console.error('Error processing PDF:', error);
@@ -139,7 +139,7 @@ export const pdfRouter = createTRPCRouter({
     }),
 
   getContextualizedFields: publicProcedure
-    .input(z.object({ 
+    .input(z.object({
       text: z.string(),
       fields: z.any(), // TODO: add a schema for the fields - they are currently the raw fields from the pdf.co api
       prompt: z.string()

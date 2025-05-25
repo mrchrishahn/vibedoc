@@ -22,5 +22,16 @@ export const uploadDocumentDtoSchema = z.object({
     fileName: z.string(),
     fileType: z.string(),
     fileSize: z.number(),
+    cloudName: z.string(),
 });
-export type UploadDocumentDto = z.infer<typeof uploadDocumentDtoSchema>; 
+export type UploadDocumentDto = z.infer<typeof uploadDocumentDtoSchema>;
+
+export const createFormDtoSchema = z.object({
+    projectId: z.number(),
+    name: z.string(),
+    fileName: z.string(),
+    fileType: z.string(),
+    fileSize: z.number(),
+    cloudName: z.string(),
+});
+export type CreateFormDto = z.infer<typeof createFormDtoSchema>; 

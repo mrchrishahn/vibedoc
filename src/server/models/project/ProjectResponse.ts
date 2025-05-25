@@ -1,3 +1,5 @@
+import type { Form } from "@prisma/client";
+
 export interface ProjectDocumentDto {
     id: number;
     fileName: string;
@@ -14,6 +16,7 @@ export interface ProjectDto {
     createdAt: Date;
     updatedAt: Date;
     additionalDocuments: ProjectDocumentDto[];
+    forms: Form[];
 }
 
 export interface ProjectListItemDto {

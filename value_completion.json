@@ -1,0 +1,26 @@
+{
+  "id": "gen-1748194269-gPNybiZOLEeA7tgiQGum",
+  "provider": "Google",
+  "model": "google/gemini-2.5-flash-preview",
+  "object": "chat.completion",
+  "created": 1748194269,
+  "choices": [
+    {
+      "logprobs": null,
+      "finish_reason": "stop",
+      "native_finish_reason": "STOP",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"topmostSubform[0].Page1[0].FilingStatus[0].c1_01[1]\": true,\n  \"topmostSubform[0].Page1[0].f1_02[0]\": \"Tobias\",\n  \"topmostSubform[0].Page1[0].YourSocial_ReadOrderControl[0].f1_05[0]\": \"Maria\",\n  \"topmostSubform[0].Page1[0].ReadOrderControl[0].Address[0].f1_13[0]\": \"Germany\",\n  \"topmostSubform[0].Page1[0].ReadOrderControl[1].AgeBlindness[0].c1_07[0]\": false,\n  \"topmostSubform[0].Page1[0].ReadOrderControl[1].AgeBlindness[0].c1_09[0]\": false,\n  \"topmostSubform[0].Page2[0].Lines12a-12b_ReadOrder[0].c2_01[0]\": false\n}",
+        "refusal": null,
+        "reasoning": null
+      }
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 6269,
+    "completion_tokens": 249,
+    "total_tokens": 6518
+  }
+}

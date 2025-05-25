@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-
+import fs from "fs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { updateInputDtoSchema, updateMultipleInputsDtoSchema } from "~/server/models/form/FormDTO";
 import type { FormDto, InputDto } from "~/server/models/form/FormDTO";
@@ -55,6 +55,7 @@ export const formRouter = createTRPCRouter({
             }
 
             const returnValue = transformForm(form);
+            fs.writeFileSync("form.json", JSON.stringify(returnValue, null, 2));
             // returnValue.inputs = [
             //     {
             //         createdAt: new Date(),
