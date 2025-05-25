@@ -20,9 +20,9 @@ type PageParams = {
 };
 
 export default function FormPage({ params }: { params: Promise<PageParams> }) {
-  const [pendingChanges, setPendingChanges] = useState<Record<number, unknown>>(
-    {},
-  );
+  const [pendingChanges, setPendingChanges] = useState<
+    Record<number, string | boolean>
+  >({});
   const [filledPdfBytes, setFilledPdfBytes] = useState<Uint8Array | null>(null);
 
   const unwrappedParams = use(params);
@@ -35,6 +35,9 @@ export default function FormPage({ params }: { params: Promise<PageParams> }) {
     isLoading,
     error,
   } = api.form.get.useQuery({ id: formId });
+
+  // Add the fillForm mutation hook
+  const fillFormMutation = api.pdf.fillForm.useMutation();
 
   // Effect to generate filled PDF whenever form data or pending changes update
   useEffect(() => {
@@ -73,10 +76,12 @@ export default function FormPage({ params }: { params: Promise<PageParams> }) {
   });
 
   const handleInputChange = useCallback((inputId: number, value: unknown) => {
-    setPendingChanges((prev) => ({
-      ...prev,
-      [inputId]: value,
-    }));
+    if (typeof value === "string" || typeof value === "boolean") {
+      setPendingChanges((prev) => ({
+        ...prev,
+        [inputId]: value,
+      }));
+    }
   }, []);
 
   const handleSave = useCallback(() => {
@@ -91,25 +96,33 @@ export default function FormPage({ params }: { params: Promise<PageParams> }) {
   }, [pendingChanges, updateInputsMutation]);
 
   const handleDownloadPDF = useCallback(async () => {
-    if (!filledPdfBytes) return;
+    if (!form) return;
 
     try {
-      // Create a blob from the PDF bytes
-      const blob = new Blob([filledPdfBytes], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
+      // Get the current input values
+      const currentInputs = form.inputs.map((input) => ({
+        pdfElementId: input.pdfElementId,
+        value: (pendingChanges[input.id] ?? input.value) as string | boolean,
+        type: input.type,
+      }));
 
-      // Create a link and trigger download
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${form?.fileName.replace(".pdf", "") ?? "form"}-filled.pdf`;
-      link.click();
+      // Get the filled PDF URL using the mutation
+      const result = await fillFormMutation.mutateAsync({
+        sourceUrl: `https://uploadthing.com/f/${form.cloudName}`,
+        inputs: currentInputs,
+      });
 
-      // Clean up
-      URL.revokeObjectURL(url);
+      // Open in new tab
+      window.open(result.downloadUrl, "_blank");
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      if (error instanceof Error) {
+        console.error("Error downloading PDF:", error.message);
+      } else {
+        console.error("Error downloading PDF:", error);
+      }
+      // You might want to show an error message to the user here
     }
-  }, [filledPdfBytes, form?.fileName]);
+  }, [form, pendingChanges, fillFormMutation]);
 
   if (isLoading) {
     return (
@@ -189,7 +202,7 @@ export default function FormPage({ params }: { params: Promise<PageParams> }) {
 
             <button
               onClick={handleDownloadPDF}
-              disabled={!filledPdfBytes}
+              // disabled={!filledPdfBytes}
               className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 hover:bg-gray-50 disabled:opacity-50"
             >
               Download PDF

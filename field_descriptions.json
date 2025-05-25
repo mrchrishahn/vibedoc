@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Given Name Text Box",
+    "description": "Enter your given name.",
+    "shortName": "Given Name"
+  },
+  {
+    "name": "Family Name Text Box",
+    "description": "Enter your family name.",
+    "shortName": "Family Name"
+  },
+  {
+    "name": "Address 1 Text Box",
+    "description": "Enter the first line of your address.",
+    "shortName": "Address Line 1"
+  },
+  {
+    "name": "House nr Text Box",
+    "description": "Enter your house number.",
+    "shortName": "House Number"
+  },
+  {
+    "name": "Address 2 Text Box",
+    "description": "Enter the second line of your address.",
+    "shortName": "Address Line 2"
+  },
+  {
+    "name": "Postcode Text Box",
+    "description": "Enter your postcode.",
+    "shortName": "Postcode"
+  },
+  {
+    "name": "City Text Box",
+    "description": "Enter your city.",
+    "shortName": "City"
+  },
+  {
+    "name": "Country Combo Box",
+    "description": "Select your country from the list.",
+    "shortName": "Country"
+  },
+  {
+    "name": "Gender List Box",
+    "description": "Select your gender from the list.",
+    "shortName": "Gender"
+  },
+  {
+    "name": "Height Formatted Field",
+    "description": "Enter your height.",
+    "shortName": "Height"
+  },
+  {
+    "name": "Driving License Check Box",
+    "description": "Check this box if you have a driving license.",
+    "shortName": "Driving License"
+  },
+  {
+    "name": "Language 1 Check Box",
+    "description": "Check this box if you speak Language 1.",
+    "shortName": "Language 1"
+  },
+  {
+    "name": "Language 2 Check Box",
+    "description": "Check this box if you speak Language 2.",
+    "shortName": "Language 2"
+  },
+  {
+    "name": "Language 3 Check Box",
+    "description": "Check this box if you speak Language 3.",
+    "shortName": "Language 3"
+  },
+  {
+    "name": "Language 4 Check Box",
+    "description": "Check this box if you speak Language 4.",
+    "shortName": "Language 4"
+  },
+  {
+    "name": "Language 5 Check Box",
+    "description": "Check this box if you speak Language 5.",
+    "shortName": "Language 5"
+  },
+  {
+    "name": "Favourite Colour List Box",
+    "description": "Select your favorite color from the list.",
+    "shortName": "Favorite Color"
+  }
+]

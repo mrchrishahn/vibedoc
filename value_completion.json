@@ -1,26 +1,19 @@
 {
-  "id": "gen-1748194269-gPNybiZOLEeA7tgiQGum",
-  "provider": "Google",
-  "model": "google/gemini-2.5-flash-preview",
-  "object": "chat.completion",
-  "created": 1748194269,
-  "choices": [
-    {
-      "logprobs": null,
-      "finish_reason": "stop",
-      "native_finish_reason": "STOP",
-      "index": 0,
-      "message": {
-        "role": "assistant",
-        "content": "{\n  \"topmostSubform[0].Page1[0].FilingStatus[0].c1_01[1]\": true,\n  \"topmostSubform[0].Page1[0].f1_02[0]\": \"Tobias\",\n  \"topmostSubform[0].Page1[0].YourSocial_ReadOrderControl[0].f1_05[0]\": \"Maria\",\n  \"topmostSubform[0].Page1[0].ReadOrderControl[0].Address[0].f1_13[0]\": \"Germany\",\n  \"topmostSubform[0].Page1[0].ReadOrderControl[1].AgeBlindness[0].c1_07[0]\": false,\n  \"topmostSubform[0].Page1[0].ReadOrderControl[1].AgeBlindness[0].c1_09[0]\": false,\n  \"topmostSubform[0].Page2[0].Lines12a-12b_ReadOrder[0].c2_01[0]\": false\n}",
-        "refusal": null,
-        "reasoning": null
-      }
-    }
-  ],
-  "usage": {
-    "prompt_tokens": 6269,
-    "completion_tokens": 249,
-    "total_tokens": 6518
-  }
+  "Given Name Text Box": "Tobias",
+  "Family Name Text Box": "Liebl",
+  "Address 1 Text Box": "example street",
+  "House nr Text Box": "two",
+  "Address 2 Text Box": null,
+  "Postcode Text Box": "10043",
+  "City Text Box": "Berlin",
+  "Country Combo Box": null,
+  "Gender List Box": null,
+  "Height Formatted Field": null,
+  "Driving License Check Box": false,
+  "Language 1 Check Box": false,
+  "Language 2 Check Box": false,
+  "Language 3 Check Box": false,
+  "Language 4 Check Box": false,
+  "Language 5 Check Box": false,
+  "Favourite Colour List Box": "blue"
 }

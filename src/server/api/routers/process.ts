@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { extractTextFromPdfBuffer } from "../pdfs/parsing";
 import { z } from "zod";
 import { env } from "~/env";
 import OpenAI from "openai";
+import { type ChatCompletion } from "openai/resources";
+import { PdfEditService } from "~/server/services/pdf-edit.service";
 
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
@@ -12,6 +16,9 @@ const openai = new OpenAI({
     "X-Title": "VibeDoc", // Optional, shows in rankings
   },
 });
+
+// Initialize the PDF edit service
+const pdfEditService = new PdfEditService();
 
 interface PdfCoResponse {
   status: string;
@@ -78,6 +85,14 @@ interface PdfCoResponse {
   jobDuration: number;
   duration: number;
 }
+
+interface OpenAIResponse {
+  name: string;
+  description: string;
+  shortName: string;
+}
+
+type OpenAIFieldResponse = Record<string, unknown>;
 
 export const pdfRouter = createTRPCRouter({
   extractText: publicProcedure
@@ -146,35 +161,76 @@ export const pdfRouter = createTRPCRouter({
     }))
     .mutation(async ({ input }) => {
       try {
-        const { text, fields, prompt } = input;
+        // const { text, fields, prompt } = input;
 
-        // TODO: add unique field ids to each field and strip some of the unneeded keys from the fields object like "Left", "Top", "Width", "Height". 
+        // const completion: ChatCompletion = await openai.chat.completions.create({
+        //   model: "google/gemini-2.5-flash-preview",
+        //   messages: [
+        //     {
+        //       role: "system",
+        //       content: prompt
+        //     },
+        //     {
+        //       role: "user",
+        //       content: JSON.stringify({
+        //         text,
+        //         fields
+        //       })
+        //     }
+        //   ],
+        //   temperature: 0.7,
+        //   max_tokens: 40000,
+        //   response_format: { type: "json_object" }
+        // });
 
-        const completion = await openai.chat.completions.create({
-          model: "google/gemini-2.5-flash-preview",
-          messages: [
-            {
-              role: "system",
-              content: prompt
-            },
-            {
-              role: "user",
-              content: JSON.stringify({
-                text,
-                fields
-              })
-            }
-          ],
-          temperature: 0.7,
-          max_tokens: 40000,
-          response_format: { type: "json_object" }
-        });
-        // TODO: process the response and add the stripped keys back to the fields object
-        return {
-          response: completion.choices[0]?.message?.content
-        };
+        // const content = completion.choices[0]?.message?.content;
+        // const response = content ? (JSON.parse(content) as OpenAIFieldResponse) : {};
+
+        // return {
+        //   response
+        // };
+
+        return null as any;
       } catch (error) {
         console.error('Error getting contextualized fields:', error);
+        throw error;
+      }
+    }),
+
+  fillForm: publicProcedure
+    .input(z.object({
+      sourceUrl: z.string(),
+      inputs: z.array(z.object({
+        pdfElementId: z.string(),
+        value: z.union([z.string(), z.boolean()]),
+        type: z.enum(['INPUT', 'CHECKBOX', 'SELECT'])
+      }))
+    }))
+    .mutation(async ({ input }) => {
+      try {
+        const { sourceUrl, inputs } = input;
+
+        // Convert inputs to PDF.co fields format
+        const fields = inputs.map(input => ({
+          fieldName: input.pdfElementId,
+          text: input.type === 'CHECKBOX'
+            ? (input.value ? 'X' : '') // Use 'X' for checked checkboxes
+            : String(input.value)
+        }));
+
+        // Call the PDF edit service to fill the form
+        const result = await pdfEditService.editPdf({
+          url: sourceUrl,
+          fields
+        });
+
+        if (result.error) {
+          throw new Error(`Failed to fill PDF form: ${result.message}`);
+        }
+
+        return { downloadUrl: result.url };
+      } catch (error) {
+        console.error('Error filling PDF form:', error);
         throw error;
       }
     }),
