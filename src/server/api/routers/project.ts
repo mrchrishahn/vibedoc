@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
     createProjectDtoSchema,
     updateProjectNameDtoSchema,
@@ -366,10 +367,9 @@ export const projectRouter = createTRPCRouter({
                     response_format: { type: "json_object" }
                 });
 
-                fs.writeFileSync("completion.json", JSON.stringify(completion, null, 2));
-                console.log(`All fields: ${fields.length}`)
-
                 const fieldDescriptions = JSON.parse(completion.choices[0]?.message?.content ?? "{}") as { name: string, description: string, shortName: string }[];
+
+                fs.writeFileSync("field_descriptions.json", JSON.stringify(fieldDescriptions, null, 2));
 
                 // Get suggested values based on project context
                 const valueCompletion = await openai.chat.completions.create({
@@ -410,9 +410,12 @@ export const projectRouter = createTRPCRouter({
                     response_format: { type: "json_object" }
                 });
 
-                fs.writeFileSync("value_completion.json", JSON.stringify(valueCompletion, null, 2));
-                console.log(`Got suggested values`)
                 const suggestedValues = JSON.parse(valueCompletion.choices[0]?.message?.content ?? "{}") as Record<string, unknown>;
+
+                fs.writeFileSync("value_completion.json", JSON.stringify(suggestedValues, null, 2));
+                console.log(`Got suggested values`)
+
+                fs.writeFileSync("fields.json", JSON.stringify(fields, null, 2));
 
                 // Create inputs for each field
                 await Promise.all(fields.map((field) => {
@@ -430,7 +433,8 @@ export const projectRouter = createTRPCRouter({
                         `Field of type ${field.Type} from page ${field.PageIndex + 1}`;
 
                     // Get the suggested value for this field
-                    const suggestedValue = suggestedValues[fieldName];
+                    const suggestedValue = suggestedValues[field.FieldName];
+                    console.log(`Suggested value for ${fieldName}: ${suggestedValue as any}`);
                     const value = inputType === "CHECKBOX"
                         ? Boolean(suggestedValue)
                         : (suggestedValue?.toString() ?? "");
@@ -447,9 +451,11 @@ export const projectRouter = createTRPCRouter({
                     });
                 }));
             } catch (error) {
-                console.error('Error analyzing form fields:', error);
+                console.error(error);
                 // We don't throw here because we still want to return the form
                 // even if field analysis fails
+
+                throw error;
             }
 
             return form;
