@@ -6,23 +6,28 @@ import {
   BookmarkIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { useState, useCallback } from "react";
+import { useState, useCallback, use, useEffect } from "react";
 import { api } from "~/trpc/react";
 import PDFViewer from "~/components/PDFViewer";
 import FormInput from "~/components/FormInput";
 import { generateFilledPDF } from "~/lib/pdf";
 
-export default function FormPage({
-  params,
-}: {
-  params: { id: string; formId: string };
-}) {
+export const dynamic = "force-dynamic";
+
+type PageParams = {
+  id: string;
+  formId: string;
+};
+
+export default function FormPage({ params }: { params: Promise<PageParams> }) {
   const [pendingChanges, setPendingChanges] = useState<Record<number, unknown>>(
     {},
   );
+  const [filledPdfBytes, setFilledPdfBytes] = useState<Uint8Array | null>(null);
 
-  const formId = parseInt(params.formId);
-  const projectId = parseInt(params.id);
+  const unwrappedParams = use(params);
+  const formId = parseInt(unwrappedParams.formId);
+  const projectId = parseInt(unwrappedParams.id);
 
   // Fetch form data
   const {
@@ -30,6 +35,34 @@ export default function FormPage({
     isLoading,
     error,
   } = api.form.get.useQuery({ id: formId });
+
+  // Effect to generate filled PDF whenever form data or pending changes update
+  useEffect(() => {
+    if (!form) return;
+
+    const generatePDF = async () => {
+      try {
+        const pdfBytes = await generateFilledPDF(
+          `/Form-to-fill.pdf`,
+          [],
+          // This currently doesn't work properly!
+          // form.inputs.map((input) => ({
+          //   ...input,
+          //   value:
+          //     input.id in pendingChanges
+          //       ? pendingChanges[input.id]
+          //       : input.value,
+          // })),
+        );
+        console.log(`Got pDF bytes: ${pdfBytes.length}`);
+        setFilledPdfBytes(pdfBytes);
+      } catch (error) {
+        console.error("Error generating PDF:", error);
+      }
+    };
+
+    void generatePDF();
+  }, [form, pendingChanges]);
 
   // Mutation for updating inputs
   const updateInputsMutation = api.form.updateMultipleInputs.useMutation({
@@ -58,36 +91,25 @@ export default function FormPage({
   }, [pendingChanges, updateInputsMutation]);
 
   const handleDownloadPDF = useCallback(async () => {
-    if (!form) return;
+    if (!filledPdfBytes) return;
 
     try {
-      // Generate the filled PDF
-      const pdfBytes = await generateFilledPDF(
-        `/Form-to-fill.pdf`,
-        form.inputs.map((input) => ({
-          ...input,
-          value:
-            input.id in pendingChanges ? pendingChanges[input.id] : input.value,
-        })),
-      );
-
       // Create a blob from the PDF bytes
-      const blob = new Blob([pdfBytes], { type: "application/pdf" });
+      const blob = new Blob([filledPdfBytes], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
 
       // Create a link and trigger download
       const link = document.createElement("a");
       link.href = url;
-      link.download = `${form.fileName.replace(".pdf", "")}-filled.pdf`;
+      link.download = `${form?.fileName.replace(".pdf", "") ?? "form"}-filled.pdf`;
       link.click();
 
       // Clean up
       URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("Error generating PDF:", error);
-      // You might want to show an error message to the user here
+      console.error("Error downloading PDF:", error);
     }
-  }, [form, pendingChanges]);
+  }, [filledPdfBytes, form?.fileName]);
 
   if (isLoading) {
     return (
@@ -129,7 +151,7 @@ export default function FormPage({
             </Link>
             <span>/</span>
             <Link
-              href={`/projects/${params.id}`}
+              href={`/projects/${unwrappedParams.id}`}
               className="hover:text-gray-900"
             >
               {form.project.name}
@@ -167,7 +189,8 @@ export default function FormPage({
 
             <button
               onClick={handleDownloadPDF}
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 hover:bg-gray-50"
+              disabled={!filledPdfBytes}
+              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 hover:bg-gray-50 disabled:opacity-50"
             >
               Download PDF
             </button>
@@ -179,7 +202,10 @@ export default function FormPage({
           {/* Left Side - PDF Viewer */}
           <div className="space-y-4">
             <h2 className="text-lg font-medium">PDF Preview</h2>
-            <PDFViewer file="/sample-pdf.pdf" className="h-[800px]" />
+            <PDFViewer
+              file={filledPdfBytes ?? "/Form-to-fill.pdf"}
+              className="h-[800px]"
+            />
           </div>
 
           {/* Right Side - Form Inputs */}
@@ -191,7 +217,16 @@ export default function FormPage({
                   key={input.id}
                   className="rounded-lg bg-white p-6 shadow-sm"
                 >
-                  <FormInput input={input} onValueChange={handleInputChange} />
+                  <FormInput
+                    input={{
+                      ...input,
+                      value:
+                        input.id in pendingChanges
+                          ? pendingChanges[input.id]
+                          : input.value,
+                    }}
+                    onValueChange={handleInputChange}
+                  />
                 </div>
               ))}
 
