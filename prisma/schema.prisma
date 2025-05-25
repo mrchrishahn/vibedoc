@@ -10,11 +10,65 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
+model Project {
+    id           Int      @id @default(autoincrement())
+    name         String
+    systemPrompt String   @default("")
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    additionalDocuments AdditionalDocument[]
+
+    forms Form[]
+}
+
+model AdditionalDocument {
     id        Int      @id @default(autoincrement())
-    name      String
+    projectId Int
+    project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    cloudName String
+    fileName  String
+    fileType  String
+    fileSize  Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@index([name])
+    @@index([projectId])
+}
+
+model Form {
+    id        Int      @id @default(autoincrement())
+    projectId Int
+    project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    name      String
+    cloudName String
+    fileName  String
+    fileType  String
+    fileSize  Int
+    inputs    Input[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([projectId])
+}
+
+model Input {
+    id           Int       @id @default(autoincrement())
+    formId       Int
+    form         Form      @relation(fields: [formId], references: [id], onDelete: Cascade)
+    name         String
+    description  String
+    type         InputType
+    value        Json? // Using Json type to store any value
+    pdfElementId String // ID of the element in the PDF
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+
+    @@index([formId])
+}
+
+enum InputType {
+    CHECKBOX
+    SELECT
+    INPUT
 }
