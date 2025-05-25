@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { updateInputDtoSchema, updateMultipleInputsDtoSchema } from "~/server/models/form/FormDTO";
@@ -49,7 +54,20 @@ export const formRouter = createTRPCRouter({
                 throw new Error("Form not found");
             }
 
-            return transformForm(form);
+            const returnValue = transformForm(form);
+            // returnValue.inputs = [
+            //     {
+            //         createdAt: new Date(),
+            //         description: "test",
+            //         id: 1,
+            //         name: "test",
+            //         pdfElementId: "topmostSubform[0].Page1[0].FilingStatus[0].f1_01[0]",
+            //         type: "INPUT",
+            //         value: "test",
+            //         updatedAt: new Date()
+            //     }
+            // ]
+            return returnValue;
         }),
 
     updateInput: publicProcedure
@@ -57,7 +75,7 @@ export const formRouter = createTRPCRouter({
         .mutation(async ({ ctx, input }): Promise<InputDto> => {
             const updatedInput = await ctx.db.input.update({
                 where: { id: input.inputId },
-                data: { value: input.value }
+                data: { value: input.value as any }
             });
 
             return transformInput(updatedInput);
@@ -70,7 +88,7 @@ export const formRouter = createTRPCRouter({
                 input.inputs.map(inputData =>
                     ctx.db.input.update({
                         where: { id: inputData.id },
-                        data: { value: inputData.value }
+                        data: { value: inputData.value as any }
                     })
                 )
             );
