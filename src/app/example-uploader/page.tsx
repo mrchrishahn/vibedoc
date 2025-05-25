@@ -65,7 +65,6 @@ export default function Home() {
         PageIndex: number; # copy from original json
         Type: string; # copy from original json
         OriginalFieldName: string; # the original field name as provided in the json file
-        AltFieldName: string; # the contextualized field name, e.g. the field name as provided in the plain text,
         Description: string; # a description for the field as provided in the plain text or inferred from context - phrased to help users understand what to enter
         Value: string; # copy from the original json file
         Left: number; # copy from the original json file
