@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+
 import * as pdfjsLib from "pdfjs-dist";
 
 // Initialize PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
 interface PDFViewerProps {
   file: string | Uint8Array;
@@ -86,11 +87,16 @@ export default function PDFViewer({ file, className = "" }: PDFViewerProps) {
           pdfData = file.buffer.slice(0);
         }
 
+        console.log("pdfData", pdfData);
+
         // Store the PDF data for reuse
         pdfDataRef.current = pdfData.slice(0);
 
         // Load the document
-        pdfDoc = await pdfjsLib.getDocument({ data: pdfData }).promise;
+        pdfDoc = await pdfjsLib.getDocument({
+          data: pdfData,
+          password: undefined,
+        }).promise;
         if (!isCurrentRender) return;
 
         setNumPages(pdfDoc.numPages);

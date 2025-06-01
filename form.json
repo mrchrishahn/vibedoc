@@ -1,187 +1,47 @@
 {
-  "id": 21,
-  "name": "EDIT OoPdfFormExample.pdf",
-  "cloudName": "ZKKRdIEDazFicPxYCO537vl8TKzkbs4A12qPpgnHSdrxMeUW",
-  "fileName": "EDIT OoPdfFormExample.pdf",
+  "id": 2,
+  "name": "Client Engagement Agreement",
+  "cloudName": "sample-engagement-agreement",
+  "fileName": "engagement_agreement.pdf",
   "fileType": "application/pdf",
-  "fileSize": 73226,
+  "fileSize": 200000,
   "inputs": [
     {
-      "id": 763,
-      "name": "Language 5",
-      "description": "Field of type CheckBox from page 1",
-      "type": "CHECKBOX",
-      "value": false,
-      "pdfElementId": "Language 5 Check Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 767,
-      "name": "Language 2",
-      "description": "Field of type CheckBox from page 1",
-      "type": "CHECKBOX",
-      "value": false,
-      "pdfElementId": "Language 2 Check Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 766,
-      "name": "Address Line 2",
-      "description": "Field of type EditBox from page 1",
+      "id": 5,
+      "name": "Client Name",
+      "description": "Full legal name of the client",
       "type": "INPUT",
       "value": "",
-      "pdfElementId": "Address 2 Text Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
+      "pdfElementId": "client_name",
+      "createdAt": "2025-05-25T17:11:45.046Z",
+      "updatedAt": "2025-05-25T17:11:45.046Z"
     },
     {
-      "id": 768,
-      "name": "Favorite Color",
-      "description": "Field of type ComboBox from page 1",
-      "type": "SELECT",
-      "value": "blue",
-      "pdfElementId": "Favourite Colour List Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 765,
-      "name": "Language 4",
-      "description": "Field of type CheckBox from page 1",
-      "type": "CHECKBOX",
-      "value": false,
-      "pdfElementId": "Language 4 Check Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 761,
-      "name": "Language 3",
-      "description": "Field of type CheckBox from page 1",
-      "type": "CHECKBOX",
-      "value": false,
-      "pdfElementId": "Language 3 Check Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 762,
-      "name": "Driving License",
-      "description": "Field of type CheckBox from page 1",
-      "type": "CHECKBOX",
-      "value": false,
-      "pdfElementId": "Driving License Check Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 754,
-      "name": "Height",
-      "description": "Field of type EditBox from page 1",
-      "type": "INPUT",
-      "value": "",
-      "pdfElementId": "Height Formatted Field",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 764,
-      "name": "Language 1",
-      "description": "Field of type CheckBox from page 1",
-      "type": "CHECKBOX",
-      "value": false,
-      "pdfElementId": "Language 1 Check Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 756,
-      "name": "Gender",
-      "description": "Field of type ComboBox from page 1",
+      "id": 6,
+      "name": "Representation Type",
+      "description": "Type of legal representation",
       "type": "SELECT",
       "value": "",
-      "pdfElementId": "Gender List Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
+      "pdfElementId": "representation_type",
+      "createdAt": "2025-05-25T17:11:45.046Z",
+      "updatedAt": "2025-05-25T17:11:45.046Z"
     },
     {
-      "id": 759,
-      "name": "Country",
-      "description": "Field of type ComboBox from page 1",
-      "type": "SELECT",
-      "value": "",
-      "pdfElementId": "Country Combo Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 752,
-      "name": "Postcode",
-      "description": "Field of type EditBox from page 1",
-      "type": "INPUT",
-      "value": "10043",
-      "pdfElementId": "Postcode Text Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 760,
-      "name": "House Number",
-      "description": "Field of type EditBox from page 1",
-      "type": "INPUT",
-      "value": "two",
-      "pdfElementId": "House nr Text Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 758,
-      "name": "City",
-      "description": "Field of type EditBox from page 1",
-      "type": "INPUT",
-      "value": "Berlin",
-      "pdfElementId": "City Text Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 755,
-      "name": "Address Line 1",
-      "description": "Field of type EditBox from page 1",
-      "type": "INPUT",
-      "value": "example street",
-      "pdfElementId": "Address 1 Text Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 757,
-      "name": "Given Name",
-      "description": "Field of type EditBox from page 1",
-      "type": "INPUT",
-      "value": "Tobias",
-      "pdfElementId": "Given Name Text Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
-    },
-    {
-      "id": 753,
-      "name": "Family Name",
-      "description": "Field of type EditBox from page 1",
-      "type": "INPUT",
-      "value": "Liebl",
-      "pdfElementId": "Family Name Text Box",
-      "createdAt": "2025-05-25T17:57:00.749Z",
-      "updatedAt": "2025-05-25T17:57:00.749Z"
+      "id": 7,
+      "name": "Conflict Check Complete",
+      "description": "Has a conflict check been completed?",
+      "type": "CHECKBOX",
+      "value": false,
+      "pdfElementId": "conflict_check",
+      "createdAt": "2025-05-25T17:11:45.046Z",
+      "updatedAt": "2025-05-25T17:11:45.046Z"
     }
   ],
-  "projectId": 7,
+  "projectId": 2,
   "project": {
-    "id": 7,
-    "name": "Actual Tax record"
+    "id": 2,
+    "name": "Legal Documents Assistant"
   },
-  "createdAt": "2025-05-25T17:56:49.591Z",
-  "updatedAt": "2025-05-25T17:56:49.591Z"
+  "createdAt": "2025-05-25T17:11:45.046Z",
+  "updatedAt": "2025-05-25T17:11:45.046Z"
 }

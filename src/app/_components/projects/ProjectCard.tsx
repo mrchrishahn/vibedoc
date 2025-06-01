@@ -4,6 +4,7 @@ import { type ProjectListItemDto } from "~/server/models/project/ProjectResponse
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface ProjectCardProps {
   project: ProjectListItemDto;
@@ -25,14 +26,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
     }
   };
 
-  const handleClick = () => {
-    router.push(`/projects/${project.id}`);
-  };
 
   return (
-    <div
-      onClick={handleClick}
-      className="relative cursor-pointer rounded-lg border bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:bg-gray-800"
+    <Link
+      href={`/projects/${project.id}`}
+      className="relative block rounded-lg border bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:bg-gray-800"
     >
       <button
         onClick={handleDelete}
@@ -77,6 +75,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

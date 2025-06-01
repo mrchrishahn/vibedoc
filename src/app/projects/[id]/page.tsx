@@ -50,9 +50,6 @@ export default function ProjectPage({
     },
   });
 
-  const handleHomeClick = () => {
-    router.push("/projects");
-  };
 
   const handleDeleteDocument = async (docId: number) => {
     try {
@@ -83,13 +80,13 @@ export default function ProjectPage({
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
       <nav className="border-b bg-white px-4 py-3">
-        <button
-          onClick={handleHomeClick}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
-        >
+        <Link
+          href="/projects"
+          className="flex items-center text-sm leading-0 w-fit bg-gray-50 py-2 px-3 rounded-md gap-4 text-gray-600 hover:text-gray-900"
+          >
           <HomeIcon className="h-5 w-5" />
           Back to Projects
-        </button>
+        </Link>
       </nav>
 
       <main className="mx-auto max-w-7xl px-4 py-8">
@@ -115,14 +112,14 @@ export default function ProjectPage({
               endpoint="pdfUploader"
               appearance={{
                 button:
-                  "rounded-lg border-2 border-dashed border-gray-300 p-6 hover:border-gray-400 transition-colors w-full h-full",
+                  "rounded-lg border-2 border-dashed border-gray-300 p-6 hover:border-gray-300 bg-white transition-colors w-full h-full ut-ready:bg-gray-50 hover:ut-ready:bg-gray-100",
                 container: "w-full h-full",
               }}
               content={{
                 button() {
                   return (
                     <div className="flex flex-col items-center justify-center gap-4">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-gray-500">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200 text-gray-500">
                         <PlusIcon className="h-5 w-5" />
                       </div>
                       <div className="text-center">
@@ -176,14 +173,14 @@ export default function ProjectPage({
               endpoint="pdfUploader"
               appearance={{
                 button:
-                  "w-full h-full rounded-lg border-2 border-dashed border-gray-300 p-6 hover:border-gray-400 transition-colors bg-white",
+                  "rounded-lg border-2 border-dashed border-gray-300 p-6 hover:border-gray-300 bg-white transition-colors w-full h-full ut-ready:bg-gray-50 hover:ut-ready:bg-gray-100",
                 container: "w-full h-full",
               }}
               content={{
                 button() {
                   return (
                     <div className="flex flex-col items-center justify-center gap-4">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-gray-500">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200 text-gray-500">
                         <PlusIcon className="h-5 w-5" />
                       </div>
                       <div className="text-center">
@@ -228,7 +225,7 @@ export default function ProjectPage({
                   fileName={form.fileName}
                   fileType={form.fileType}
                   badge={
-                    <span className="rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-600">
+                    <span className="rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-600 whitespace-nowrap">
                       {form.inputs?.length ?? 0} inputs found
                     </span>
                   }

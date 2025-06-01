@@ -19,7 +19,7 @@ export default async function Home() {
             Welcome to <span className="text-indigo-600">VibeDoc</span>
           </h1>
           <p className="mt-4 text-lg text-gray-600">
-            Your personal documentation assistant
+            Let the AI help you with your documentation
           </p>
         </div>
         

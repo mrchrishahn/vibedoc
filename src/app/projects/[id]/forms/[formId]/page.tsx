@@ -57,7 +57,7 @@ export default function FormPage({ params }: { params: Promise<PageParams> }) {
           //       : input.value,
           // })),
         );
-        console.log(`Got pDF bytes: ${pdfBytes.length}`);
+        console.log(`Got PDF bytes: ${pdfBytes.length}`);
         setFilledPdfBytes(pdfBytes);
       } catch (error) {
         console.error("Error generating PDF:", error);

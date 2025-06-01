@@ -1,4 +1,4 @@
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument } from '@cantoo/pdf-lib';
 import type { InputDto } from '~/server/models/form/FormDTO';
 
 function getStringValue(val: unknown): string {
@@ -14,14 +14,17 @@ export async function generateFilledPDF(pdfUrl: string, inputs: InputDto[]): Pro
 
     // Load the PDF document
     const pdfDoc = await PDFDocument.load(pdfBytes, {
-        ignoreEncryption: true
+        ignoreEncryption: true,
     });
 
     // Get the form from the PDF
     const form = pdfDoc.getForm();
 
     const allFields = form.getFields();
-    console.log(allFields);
+    console.log({
+        allFields,
+        inputs,
+    });
 
     // const firstFIeld = allFields[0]
 
@@ -79,8 +82,10 @@ export async function generateFilledPDF(pdfUrl: string, inputs: InputDto[]): Pro
     }
 
     // Flatten the form (optional - makes it non-editable)
-    form.flatten();
+    // form.flatten();
 
     // Save the PDF
-    return await pdfDoc.save();
+    return await pdfDoc.save({
+        
+    });
 } 

@@ -6,8 +6,8 @@ import { cookies } from "next/headers";
 
 export default async function ProjectsPage() {
   const supabase = createClient(await cookies());
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
     redirect("/");
   }
 
@@ -16,7 +16,7 @@ export default async function ProjectsPage() {
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">My Projects</h1>
-          <p className="text-sm text-gray-500">{session.user.email}</p>
+          <p className="text-sm text-gray-500">{user.email}</p>
         </div>
         <CreateProjectButton />
       </div>
